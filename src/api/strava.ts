@@ -21,12 +21,28 @@ api.interceptors.response.use(
   }
 );
 
-export const getActivities = (startDate?: string, endDate?: string) => {
-  return api.get('/activities', { params: { startDate, endDate } })
+export const getActivities = (startDate?: string, endDate?: string, page: number = 1, limit: number = 10) => {
+  return api.get('/activities', { params: { startDate, endDate, page, limit } })
 }
 
 export const getSummary = (startDate?: string, endDate?: string) => {
   return api.get('/activities/summary', { params: { startDate, endDate } })
+}
+
+export const getGoals = () => {
+  return api.get('/goals')
+}
+
+export const createGoal = (goalData: { name: string, targetDistance: number, startDate: string, endDate: string }) => {
+  return api.post('/goals', goalData)
+}
+
+export const getGoalStatus = (id: number) => {
+  return api.get(`/goals/${id}/status`)
+}
+
+export const deleteGoal = (id: number) => {
+  return api.delete(`/goals/${id}`)
 }
 
 export const loginWithStrava = () => {

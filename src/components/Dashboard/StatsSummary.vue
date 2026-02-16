@@ -1,40 +1,37 @@
 <template>
-  <div class="grid gap-4 md:grid-cols-3">
-    <div class="rounded-xl border bg-card text-card-foreground shadow">
-      <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-        <h3 class="tracking-tight text-sm font-medium">Total Distance</h3>
-        <Activity class="h-4 w-4 text-muted-foreground" />
+  <div class="grid gap-4 grid-cols-2 lg:grid-cols-3">
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Dist</h3>
+        <ActivityIcon class="text-orange-600 opacity-50" :size="16" />
       </div>
-      <div class="p-6 pt-0">
-        <div class="text-2xl font-bold">{{ stats.totalDistance.toFixed(2) }} km</div>
-        <p class="text-xs text-muted-foreground">All time running</p>
-      </div>
-    </div>
-    <div class="rounded-xl border bg-card text-card-foreground shadow">
-      <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-        <h3 class="tracking-tight text-sm font-medium">Activities</h3>
-        <Footprints class="h-4 w-4 text-muted-foreground" />
-      </div>
-      <div class="p-6 pt-0">
-        <div class="text-2xl font-bold">{{ stats.totalCount }}</div>
-        <p class="text-xs text-muted-foreground">Recorded runs</p>
+      <div>
+        <div class="text-2xl font-black tracking-tight text-slate-900">{{ stats.totalDistance.toFixed(1) }} <span class="text-xs font-normal text-slate-500">km</span></div>
       </div>
     </div>
-    <div class="rounded-xl border bg-card text-card-foreground shadow">
-      <div class="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-        <h3 class="tracking-tight text-sm font-medium">Avg Pace</h3>
-        <Timer class="h-4 w-4 text-muted-foreground" />
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Activities</h3>
+        <FootprintsIcon class="text-orange-600 opacity-50" :size="16" />
       </div>
-      <div class="p-6 pt-0">
-        <div class="text-2xl font-bold">{{ formatPace(stats.averagePace) }} /km</div>
-        <p class="text-xs text-muted-foreground">Average across all runs</p>
+      <div>
+        <div class="text-2xl font-black tracking-tight text-slate-900">{{ stats.totalCount }}</div>
+      </div>
+    </div>
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-3 col-span-2 lg:col-span-1">
+      <div class="flex items-center justify-between">
+        <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Avg Pace</h3>
+        <TimerIcon class="text-orange-600 opacity-50" :size="16" />
+      </div>
+      <div>
+        <div class="text-2xl font-black tracking-tight text-slate-900">{{ formatPace(stats.averagePace) }} <span class="text-xs font-normal text-slate-500">/km</span></div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Activity, Footprints, Timer } from 'lucide-vue-next'
+import { Activity as ActivityIcon, Footprints as FootprintsIcon, Timer as TimerIcon } from 'lucide-vue-next'
 
 defineProps<{
   stats: {
