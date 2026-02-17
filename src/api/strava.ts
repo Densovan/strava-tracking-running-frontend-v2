@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api'
+  baseURL: 'https://strava-tracking-running-backend-v2.onrender.com/api'
 })
 
 // Add axios interceptors for better error logging
@@ -46,5 +46,5 @@ export const deleteGoal = (id: number) => {
 }
 
 export const loginWithStrava = () => {
-  window.location.href = 'http://localhost:3000/api/auth/login'
+  window.location.href = 'https://strava-tracking-running-backend-v2.onrender.com/api/auth/login'
 }
