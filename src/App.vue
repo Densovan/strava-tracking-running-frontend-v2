@@ -1,60 +1,87 @@
 <template>
-  <div class="min-h-screen bg-background text-foreground transition-all duration-300">
-    <header class="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div class="container mx-auto px-3 sm:px-4 h-14 md:h-16 flex items-center justify-between">
-        <h1 class="text-lg md:text-xl font-black flex items-center gap-1.5 text-foreground italic tracking-tighter shrink-0">
-          <ActivityIcon class="text-orange-600" :size="24" />
-          <span class="hidden xs:inline">STRAVA</span> DASH
-        </h1>
-        <div class="flex items-center gap-1.5 sm:gap-4">
-          <button 
-            @click="isCreateModalOpen = true"
-            class="hidden sm:inline-flex items-center justify-center rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all border-2 border-slate-200 bg-white hover:border-slate-900 hover:bg-slate-900 hover:text-white h-9 md:h-10 px-4 md:px-6"
-          >
-            Set Goal
-          </button>
-          <button 
-            @click="isCreateModalOpen = true"
-            class="sm:hidden flex items-center justify-center rounded-xl border-2 border-slate-200 bg-white h-9 w-9 shrink-0"
-          >
-            <Plus :size="18" />
-          </button>
-          <button 
-            @click="toggleTheme"
-            class="flex items-center justify-center rounded-xl border-2 border-border bg-card h-9 md:h-10 w-9 md:w-10 hover:border-foreground transition-all shrink-0"
-            :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
-          >
-            <Sun v-if="isDark" :size="18" class="text-orange-500" />
-            <Moon v-else :size="18" class="text-slate-600 dark:text-slate-400" />
-          </button>
-          <button 
-            @click="loginWithStrava" 
-            class="inline-flex items-center justify-center rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest bg-orange-600 text-white hover:bg-orange-700 transition-all shadow-lg shadow-orange-600/20 h-9 md:h-10 px-4 md:px-6 shrink-0"
-          >
-            Sync
-          </button>
+  <div class="min-h-screen bg-background text-foreground transition-all duration-700 relative overflow-hidden">
+    <!-- Liquid Background Blobs -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-emerald-400/10 dark:bg-emerald-500/5 blur-[120px] animate-morph animate-float"></div>
+      <div class="absolute top-[20%] -right-[5%] w-[35%] h-[35%] bg-teal-400/10 dark:bg-teal-500/5 blur-[100px] animate-morph animate-float mt-20" style="animation-delay: -2s"></div>
+      <div class="absolute -bottom-[10%] left-[20%] w-[50%] h-[50%] bg-emerald-500/10 dark:bg-emerald-600/5 blur-[150px] animate-morph animate-float" style="animation-delay: -4s"></div>
+    </div>
+
+    <header class="sticky top-0 z-40 w-full bg-background/0 backdrop-blur-0">
+      <div class="max-w-8xl mx-auto px-4 sm:px-8 lg:px-12 py-4">
+        <div class="glass-card flex items-center justify-between h-14 md:h-20 px-6 sm:px-10 border-white/40 dark:border-white/10">
+          <h1 class="text-xl md:text-3xl font-black flex items-center gap-2 italic tracking-tighter shrink-0 liquid-text">
+            <ActivityIcon class="text-emerald-500 animate-pulse-slow" :size="32" />
+            <span class="hidden xs:inline">STRAVA</span> DASH
+          </h1>
+          <div class="flex items-center gap-2 sm:gap-4">
+            <button 
+              @click="isCreateModalOpen = true"
+              class="hidden sm:inline-flex items-center justify-center rounded-2xl text-xs font-black uppercase tracking-widest transition-all border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500 hover:text-white h-10 md:h-12 px-6 md:px-8 shadow-lg shadow-emerald-500/10"
+            >
+              Set Goal
+            </button>
+            <button 
+              @click="isCreateModalOpen = true"
+              class="sm:hidden flex items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/10 h-10 w-10 shrink-0"
+            >
+              <Plus :size="20" class="text-emerald-600 dark:text-emerald-400" />
+            </button>
+            <button 
+              @click="toggleTheme"
+              class="flex items-center justify-center rounded-2xl border border-border bg-card h-10 md:h-12 w-10 md:w-12 hover:border-emerald-500 transition-all shrink-0"
+              :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+            >
+              <Sun v-if="isDark" :size="20" class="text-emerald-400" />
+              <Moon v-else :size="20" class="text-emerald-600" />
+            </button>
+            <button 
+              @click="loginWithStrava" 
+              class="inline-flex items-center justify-center rounded-2xl text-xs font-black uppercase tracking-widest bg-emerald-600 text-white hover:bg-emerald-500 transition-all shadow-xl shadow-emerald-600/20 h-10 md:h-12 px-6 md:px-10 shrink-0"
+            >
+              Sync
+            </button>
+          </div>
         </div>
       </div>
     </header>
 
-    <main class="container mx-auto px-3 sm:px-4 py-6 md:py-10 space-y-8 md:space-y-14">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-5 md:gap-6">
-        <div class="space-y-0.5 md:space-y-1">
-          <h2 class="text-2xl md:text-5xl font-black tracking-tighter text-foreground leading-tight">ACTIVITY</h2>
-          <p class="text-[10px] md:text-sm text-muted-foreground font-medium">Reach your goals and track progress.</p>
+    <main class="max-w-8xl mx-auto px-4 sm:px-8 lg:px-12 py-12 md:py-24 space-y-24 md:space-y-40 relative z-10">
+      <!-- Performance Pulse -->
+      <section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-10 md:gap-16">
+        <div class="space-y-4">
+          <h2 class="text-5xl md:text-8xl font-black tracking-tighter text-foreground leading-none italic uppercase liquid-text">Performance</h2>
+          <p class="text-xs md:text-xl font-bold text-emerald-600/40 lowercase tracking-tight">Your running journey through a liquid lens.</p>
         </div>
         <div class="w-full md:w-auto">
           <DateFilter @change="handleFilterChange" />
         </div>
-      </div>
+      </section>
 
-      <!-- Goals Section -->
-      <section v-if="goalStatuses.length" class="space-y-4 md:space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <div class="flex items-center justify-between border-b border-border pb-2">
-          <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Your Training Goals</h3>
-          <span class="text-[9px] font-bold text-orange-600 bg-orange-500/10 px-2 py-0.5 rounded-full">{{ goalStatuses.length }} Active</span>
+      <!-- Grid layout for Chart and Vital Stats -->
+      <section class="grid gap-16 lg:gap-24 lg:grid-cols-12">
+        <div class="lg:col-span-8 space-y-10">
+          <div class="flex items-center justify-between border-b-2 border-emerald-500/10 pb-6">
+            <h3 class="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-emerald-600/40">Kinetic Momentum</h3>
+          </div>
+          <RunningChart v-if="activities.length" :activities="activities" />
         </div>
-        <div class="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        
+        <div class="lg:col-span-4 space-y-10">
+          <div class="flex items-center justify-between border-b-2 border-emerald-500/10 pb-6">
+            <h3 class="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-emerald-600/40">Vital Metrics</h3>
+          </div>
+          <StatsSummary v-if="stats" :stats="stats" />
+        </div>
+      </section>
+
+      <!-- Active Objectives -->
+      <section v-if="goalStatuses.length" class="space-y-10 animate-in fade-in slide-in-from-bottom-12 duration-1000">
+        <div class="flex items-center justify-between border-b-2 border-emerald-500/10 pb-6">
+          <h3 class="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-emerald-600/40">Active Objectives</h3>
+          <span class="text-[10px] md:text-xs font-black text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 px-6 py-2 rounded-full border border-emerald-500/10 tracking-widest uppercase">{{ goalStatuses.length }} active</span>
+        </div>
+        <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           <GoalCard 
             v-for="status in goalStatuses" 
             :key="status.goal.id" 
@@ -64,25 +91,10 @@
         </div>
       </section>
 
-      <div class="grid gap-8 lg:gap-12 lg:grid-cols-3">
-        <div class="lg:col-span-2 space-y-4 md:space-y-6">
-          <div class="flex items-center justify-between border-b border-border pb-2">
-            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Performance</h3>
-          </div>
-          <RunningChart v-if="activities.length" :activities="activities" />
-        </div>
-        
-        <div class="space-y-4 md:space-y-6">
-          <div class="flex items-center justify-between border-b border-border pb-2">
-            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Total Progress</h3>
-          </div>
-          <StatsSummary v-if="stats" :stats="stats" />
-        </div>
-      </div>
-
-      <div class="space-y-4 md:space-y-6">
-        <div class="flex items-center justify-between border-b border-border pb-2">
-          <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">History</h3>
+      <!-- Activity Stream -->
+      <section class="space-y-10">
+        <div class="flex items-center justify-between border-b-2 border-emerald-500/10 pb-6">
+          <h3 class="text-xs md:text-sm font-black uppercase tracking-[0.4em] text-emerald-600/40">Activity Stream</h3>
         </div>
         <ActivityList 
           v-if="activities.length" 
@@ -92,13 +104,13 @@
           :total="pagination.total"
           @page-change="handlePageChange"
         />
-        <div v-else class="text-center py-12 md:py-20 text-muted-foreground border-2 border-dashed border-border rounded-2xl md:rounded-3xl bg-muted/30">
-          <div class="flex flex-col items-center gap-3">
-            <ActivityIcon :size="32" class="opacity-20" />
-            <p class="text-sm font-bold tracking-tight px-4">No activities found for this range.</p>
+        <div v-else class="text-center py-32 md:py-48 text-muted-foreground glass-card border-dashed-2 border-emerald-500/10">
+          <div class="flex flex-col items-center gap-8">
+            <ActivityIcon :size="64" class="text-emerald-500 opacity-10" />
+            <p class="text-xl md:text-2xl font-black italic tracking-tight text-emerald-600/30">Liquidity waiting... no activities found.</p>
           </div>
         </div>
-      </div>
+      </section>
     </main>
 
     <CreateGoalModal 

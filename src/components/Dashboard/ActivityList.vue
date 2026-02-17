@@ -1,76 +1,78 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-10">
     <!-- Desktop Table View -->
-    <div class="hidden md:block rounded-xl border border-border bg-card overflow-hidden shadow-sm">
-      <table class="w-full text-sm">
-        <thead class="bg-muted/50">
-          <tr class="border-b border-border transition-colors">
-            <th class="h-12 px-4 text-left align-middle font-black text-muted-foreground uppercase tracking-widest text-[9px]">Activity</th>
-            <th class="h-12 px-4 text-left align-middle font-black text-muted-foreground uppercase tracking-widest text-[9px]">Date</th>
-            <th class="h-12 px-4 text-left align-middle font-black text-muted-foreground uppercase tracking-widest text-[9px]">Distance</th>
-            <th class="h-12 px-4 text-left align-middle font-black text-muted-foreground uppercase tracking-widest text-[9px]">Time</th>
-            <th class="h-12 px-4 text-left align-middle font-black text-muted-foreground uppercase tracking-widest text-[9px]">Pace</th>
+    <div class="hidden md:block glass-card overflow-hidden">
+      <table class="w-full text-sm border-collapse">
+        <thead class="bg-emerald-500/5 backdrop-blur-md">
+          <tr>
+            <th class="h-16 px-8 text-left align-middle font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] text-[10px]">Movement</th>
+            <th class="h-16 px-8 text-left align-middle font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] text-[10px]">Timeline</th>
+            <th class="h-16 px-8 text-left align-middle font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] text-[10px]">Impact (km)</th>
+            <th class="h-16 px-8 text-left align-middle font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] text-[10px]">Duration</th>
+            <th class="h-16 px-8 text-left align-middle font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-[0.3em] text-[10px]">Intensity</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="act in activities" :key="act.id" class="border-b border-border last:border-0 transition-colors hover:bg-muted/30 group">
-            <td class="p-4 align-middle font-bold text-foreground group-hover:text-orange-600 transition-colors italic tracking-tight">{{ act.name }}</td>
-            <td class="p-4 align-middle text-muted-foreground font-medium">{{ formatDate(act.startDate) }}</td>
-            <td class="p-4 align-middle font-black text-foreground italic tracking-tighter">{{ (act.distance / 1000).toFixed(2) }} km</td>
-            <td class="p-4 align-middle text-muted-foreground font-medium">{{ formatDuration(act.movingTime) }}</td>
-            <td class="p-4 align-middle font-black text-orange-600 italic tracking-tighter">{{ calculatePace(act.distance, act.movingTime) }} /km</td>
+          <tr v-for="act in activities" :key="act.id" class="border-b border-emerald-500/5 last:border-0 transition-all duration-300 hover:bg-emerald-500/10 group">
+            <td class="p-8 align-middle font-black text-lg text-foreground group-hover:liquid-text transition-all italic tracking-tighter">{{ act.name }}</td>
+            <td class="p-8 align-middle text-muted-foreground/60 font-bold uppercase tracking-widest text-[10px]">{{ formatDate(act.startDate) }}</td>
+            <td class="p-8 align-middle font-black text-xl text-foreground italic tracking-tighter">{{ (act.distance / 1000).toFixed(2) }}<span class="text-xs opacity-30 ml-1">K</span></td>
+            <td class="p-8 align-middle text-muted-foreground/60 font-bold uppercase tracking-widest text-[10px]">{{ formatDuration(act.movingTime) }}</td>
+            <td class="p-8 align-middle">
+              <span class="font-black text-xl text-emerald-500 italic tracking-tighter group-hover:scale-110 transition-transform inline-block">{{ calculatePace(act.distance, act.movingTime) }}</span>
+              <span class="text-[10px] font-black text-emerald-500/30 uppercase tracking-widest ml-1 italic">/km</span>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Mobile Card View -->
-    <div class="grid gap-2.5 md:hidden">
+    <div class="grid gap-6 md:hidden">
       <div 
         v-for="act in activities" 
         :key="act.id" 
-        class="p-4 rounded-xl border border-border bg-card shadow-sm space-y-3 relative overflow-hidden group"
+        class="glass-card p-6 space-y-5 group"
       >
-        <div class="absolute inset-0 bg-gradient-to-br from-transparent to-slate-50/20 dark:to-slate-900/10 pointer-events-none"></div>
-        <div class="relative flex justify-between items-start gap-2">
-          <h4 class="font-bold text-sm leading-tight text-foreground line-clamp-2 italic tracking-tight group-hover:text-orange-600 transition-colors">{{ act.name }}</h4>
-          <span class="text-[8px] font-black uppercase py-0.5 px-1.5 bg-muted rounded text-muted-foreground shrink-0 border border-border">
+        <div class="flex justify-between items-start gap-3">
+          <h4 class="font-black text-lg leading-tight text-foreground italic tracking-tighter group-hover:liquid-text transition-all">{{ act.name }}</h4>
+          <span class="text-[9px] font-black uppercase py-1 px-3 bg-emerald-500/10 rounded-full text-emerald-600 dark:text-emerald-400 border border-emerald-500/10 shrink-0">
             {{ formatDate(act.startDate) }}
           </span>
         </div>
-        <div class="relative grid grid-cols-3 gap-1 py-2 border-y border-border">
-          <div class="space-y-0.5">
-            <p class="text-[8px] uppercase font-black text-muted-foreground tracking-wider">Dist</p>
-            <p class="text-xs font-black text-foreground italic tracking-tighter">{{ (act.distance / 1000).toFixed(1) }}k</p>
+        <div class="grid grid-cols-3 gap-4 py-4 border-y border-emerald-500/10">
+          <div class="space-y-1">
+            <p class="text-[9px] uppercase font-black text-muted-foreground/40 tracking-[0.2em]">Flow</p>
+            <p class="text-base font-black text-foreground italic tracking-tighter">{{ (act.distance / 1000).toFixed(1) }}k</p>
           </div>
-          <div class="space-y-0.5">
-            <p class="text-[8px] uppercase font-black text-muted-foreground tracking-wider">Time</p>
-            <p class="text-xs font-black text-foreground italic tracking-tighter">{{ formatDurationShort(act.movingTime) }}</p>
+          <div class="space-y-1">
+            <p class="text-[9px] uppercase font-black text-muted-foreground/40 tracking-[0.2em]">Time</p>
+            <p class="text-base font-black text-foreground italic tracking-tighter">{{ formatDurationShort(act.movingTime) }}</p>
           </div>
-          <div class="space-y-0.5">
-            <p class="text-[8px] uppercase font-black text-muted-foreground tracking-wider">Pace</p>
-            <p class="text-xs font-black text-orange-600 italic tracking-tighter">{{ calculatePace(act.distance, act.movingTime) }}</p>
+          <div class="space-y-1">
+            <p class="text-[9px] uppercase font-black text-muted-foreground/40 tracking-[0.2em]">Pace</p>
+            <p class="text-base font-black text-emerald-500 italic tracking-tighter">{{ calculatePace(act.distance, act.movingTime) }}</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="totalPages > 1" class="flex items-center justify-between border-t border-border pt-6">
-      <p class="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-        Page {{ page }} / {{ totalPages }}
+    <div v-if="totalPages > 1" class="flex items-center justify-between pt-10 px-4">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-emerald-600/40 dark:text-emerald-400/30">
+        Cycle {{ page }} of {{ totalPages }}
       </p>
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center space-x-4">
         <button 
           @click="$emit('page-change', page - 1)"
           :disabled="page <= 1"
-          class="inline-flex items-center justify-center rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border-2 border-border bg-background/50 hover:border-orange-600 disabled:opacity-20 disabled:hover:border-border h-9 px-4 shrink-0"
+          class="glass h-12 px-8 rounded-2xl text-xs font-black uppercase tracking-widest border border-emerald-500/20 hover:border-emerald-500 disabled:opacity-20 transition-all text-emerald-600 dark:text-emerald-400"
         >
           Prev
         </button>
         <button 
           @click="$emit('page-change', page + 1)"
           :disabled="page >= totalPages"
-          class="inline-flex items-center justify-center rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all border-2 border-border bg-background/50 hover:border-orange-600 disabled:opacity-20 disabled:hover:border-border h-9 px-4 shrink-0"
+          class="glass h-12 px-8 rounded-2xl text-xs font-black uppercase tracking-widest border border-emerald-500/20 hover:border-emerald-500 disabled:opacity-20 transition-all text-emerald-600 dark:text-emerald-400"
         >
           Next
         </button>

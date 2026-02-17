@@ -20,60 +20,109 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-lg: 0.75rem;
-  --radius-md: calc(0.75rem - 2px);
-  --radius-sm: calc(0.75rem - 4px);
+  --radius-lg: 1rem;
+  --radius-md: calc(1rem - 2px);
+  --radius-sm: calc(1rem - 4px);
+  
+  @animate pulse-slow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+  }
 }
 
 @layer base {
   :root {
-    --background: hsl(210 40% 98.5%);
-    --foreground: hsl(222.2 84% 4.9%);
-    --card: hsl(0 0% 100%);
-    --card-foreground: hsl(222.2 84% 4.9%);
+    /* Emerald Green Light Theme */
+    --background: hsl(150 40% 98%);
+    --foreground: hsl(160 84% 4.9%);
+    --card: hsl(0 0% 100% / 0.7);
+    --card-foreground: hsl(160 84% 4.9%);
     --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(222.2 84% 4.9%);
-    --primary: hsl(222.2 47.4% 11.2%);
-    --primary-foreground: hsl(210 40% 98%);
-    --secondary: hsl(210 40% 96.1%);
-    --secondary-foreground: hsl(222.2 47.4% 11.2%);
-    --muted: hsl(210 40% 96.1%);
-    --muted-foreground: hsl(215.4 16.3% 46.9%);
-    --accent: hsl(210 40% 96.1%);
-    --accent-foreground: hsl(222.2 47.4% 11.2%);
+    --popover-foreground: hsl(160 84% 4.9%);
+    --primary: hsl(158 94% 30%);
+    --primary-foreground: hsl(150 40% 98%);
+    --secondary: hsl(150 40% 96.1%);
+    --secondary-foreground: hsl(160 47.4% 11.2%);
+    --muted: hsl(150 40% 96.1%);
+    --muted-foreground: hsl(160 16.3% 40%);
+    --accent: hsl(150 40% 96.1%);
+    --accent-foreground: hsl(160 47.4% 11.2%);
     --destructive: hsl(0 84.2% 60.2%);
-    --destructive-foreground: hsl(210 40% 98%);
-    --border: hsl(214.3 31.8% 91.4%);
-    --input: hsl(214.3 31.8% 91.4%);
-    --ring: hsl(222.2 84% 4.9%);
+    --destructive-foreground: hsl(150 40% 98%);
+    --border: hsl(158 30% 90%);
+    --input: hsl(158 30% 90%);
+    --ring: hsl(158 94% 30%);
   }
 
   .dark {
-    --background: hsl(222.2 84% 4.9%);
-    --foreground: hsl(210 40% 98%);
-    --card: hsl(222.2 84% 4.9%);
-    --card-foreground: hsl(210 40% 98%);
-    --popover: hsl(222.2 84% 4.9%);
-    --popover-foreground: hsl(210 40% 98%);
-    --primary: hsl(210 40% 98%);
-    --primary-foreground: hsl(222.2 47.4% 11.2%);
-    --secondary: hsl(217.2 32.6% 17.5%);
-    --secondary-foreground: hsl(210 40% 98%);
-    --muted: hsl(217.2 32.6% 17.5%);
-    --muted-foreground: hsl(215 20.2% 65.1%);
-    --accent: hsl(217.2 32.6% 17.5%);
-    --accent-foreground: hsl(210 40% 98%);
+    /* Deep Emerald Dark Theme */
+    --background: hsl(160 95% 2%);
+    --foreground: hsl(150 40% 98%);
+    --card: hsl(160 95% 4% / 0.6);
+    --card-foreground: hsl(150 40% 98%);
+    --popover: hsl(160 95% 2%);
+    --popover-foreground: hsl(150 40% 98%);
+    --primary: hsl(150 100% 50%);
+    --primary-foreground: hsl(160 95% 2%);
+    --secondary: hsl(160 50% 10%);
+    --secondary-foreground: hsl(150 40% 98%);
+    --muted: hsl(160 50% 10%);
+    --muted-foreground: hsl(150 20% 65%);
+    --accent: hsl(160 50% 10%);
+    --accent-foreground: hsl(150 40% 98%);
     --destructive: hsl(0 62.8% 30.6%);
-    --destructive-foreground: hsl(210 40% 98%);
-    --border: hsl(217.2 32.6% 17.5%);
-    --input: hsl(217.2 32.6% 17.5%);
-    --ring: hsl(212.7 26.8% 83.9%);
+    --destructive-foreground: hsl(150 40% 98%);
+    --border: hsl(160 50% 15%);
+    --input: hsl(160 50% 15%);
+    --ring: hsl(150 100% 50%);
   }
 
   * {
     @apply border-border;
   }
+  
   body {
-    @apply bg-background text-foreground transition-colors duration-300;
+    @apply bg-background text-foreground transition-colors duration-500 antialiased overflow-x-hidden;
+    background-image: radial-gradient(circle at 50% 50%, hsl(142 76% 86% / 0.15) 0%, transparent 50%),
+                      radial-gradient(circle at 0% 0%, hsl(158 94% 50% / 0.05) 0%, transparent 40%);
   }
+
+  .dark body {
+    background-image: radial-gradient(circle at 50% 50%, hsl(150 100% 10% / 0.3) 0%, transparent 60%),
+                      radial-gradient(circle at 100% 100%, hsl(158 94% 20% / 0.1) 0%, transparent 40%);
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-2xl bg-card border border-white/40 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)];
+  }
+  
+  .glass-card {
+    @apply glass rounded-3xl hover:shadow-[0_8px_32px_0_rgba(16,185,129,0.25)] transition-all duration-500 border-2 border-emerald-500/10 dark:border-emerald-500/20 shadow-[0_4px_16px_0_rgba(16,185,129,0.05)];
+  }
+
+  .liquid-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-400 dark:from-emerald-400 dark:to-teal-200;
+  }
+}
+
+/* Base animations for liquid background */
+@keyframes morph {
+  0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 30% / 50% 60% 30% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.animate-morph {
+  animation: morph 8s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 12s ease-in-out infinite;
 }
