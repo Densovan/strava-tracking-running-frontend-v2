@@ -40,17 +40,36 @@ const props = defineProps<{
 }>()
 
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200)
+const isDarkMode = ref(false)
 
 const handleResize = () => {
   windowWidth.value = window.innerWidth
+  checkDarkMode()
 }
+
+const checkDarkMode = () => {
+  isDarkMode.value = document.documentElement.classList.contains('dark')
+}
+
+let observer: MutationObserver | null = null
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
+  checkDarkMode()
+  
+  // Watch for theme changes
+  observer = new MutationObserver(() => {
+    checkDarkMode()
+  })
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  })
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
+  if (observer) observer.disconnect()
 })
 
 const chartData = computed(() => {
@@ -82,6 +101,7 @@ const chartData = computed(() => {
 
 const chartOptions = computed(() => {
   const isMobile = windowWidth.value < 640
+  const isDark = isDarkMode.value
 
   return {
     responsive: true,
@@ -91,6 +111,7 @@ const chartOptions = computed(() => {
         display: !isMobile,
         position: 'top' as const,
         labels: {
+          color: isDark ? '#94a3b8' : '#64748b',
           font: {
             family: "'Inter', sans-serif",
             weight: 'bold' as const,
@@ -99,15 +120,17 @@ const chartOptions = computed(() => {
         }
       },
       tooltip: {
-        padding: 10,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        padding: 12,
+        backgroundColor: isDark ? 'rgba(15, 23, 42, 0.9)' : 'rgba(0, 0, 0, 0.8)',
         titleFont: {
-          size: 12,
+          size: 13,
           weight: 'bold' as const
         },
         bodyFont: {
-          size: 11
-        }
+          size: 12
+        },
+        borderColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+        borderWidth: 1
       }
     },
     scales: {
@@ -120,20 +143,20 @@ const chartOptions = computed(() => {
             size: isMobile ? 8 : 10,
             weight: 'bold' as const
           },
-          color: '#94a3b8'
+          color: isDark ? '#64748b' : '#94a3b8'
         }
       },
       y: {
         beginAtZero: true,
         grid: {
-          color: '#f1f5f9'
+          color: isDark ? 'rgba(255, 255, 255, 0.05)' : '#f1f5f9'
         },
         ticks: {
           font: {
             size: isMobile ? 8 : 10,
             weight: 'bold' as const
           },
-          color: '#94a3b8',
+          color: isDark ? '#64748b' : '#94a3b8',
           callback: (value: any) => isMobile ? `${value}k` : `${value} km`
         }
       }
@@ -141,17 +164,17 @@ const chartOptions = computed(() => {
     elements: {
       line: {
         tension: 0.4,
-        borderWidth: 3,
+        borderWidth: 4,
         borderColor: '#ea580c',
-        backgroundColor: 'rgba(234, 88, 12, 0.1)',
+        backgroundColor: isDark ? 'rgba(234, 88, 12, 0.15)' : 'rgba(234, 88, 12, 0.08)',
         fill: true
       },
       point: {
-        radius: isMobile ? 3 : 5,
-        hoverRadius: isMobile ? 5 : 7,
+        radius: isMobile ? 4 : 6,
+        hoverRadius: isMobile ? 6 : 8,
         backgroundColor: '#ea580c',
-        borderColor: '#fff',
-        borderWidth: 2
+        borderColor: isDark ? '#0f172a' : '#fff',
+        borderWidth: 3
       }
     }
   }
