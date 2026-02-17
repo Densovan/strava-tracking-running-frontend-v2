@@ -64,7 +64,7 @@
             @click="$emit('close')"
             class="glass inline-flex items-center justify-center rounded-2xl text-xs font-black uppercase tracking-widest transition-all border border-emerald-500/20 hover:border-emerald-500 hover:text-emerald-500 hover:bg-emerald-500/10 h-12 md:h-14 px-10"
           >
-            Abort
+            Cancel
           </button>
           <button 
             type="submit"
